@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mblog/Utils/Components/RoundButton.dart';
 import 'package:mblog/Utils/utils.dart';
+import 'package:mblog/view/login_View.dart';
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
 
@@ -9,39 +11,51 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  bool loading = false;
   final emailController = TextEditingController();
+  final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MBLOG'),
+        title: Text('Forgot Password'),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Forgot Password',style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
-          SizedBox(height: 30,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextFormField(
               controller: emailController,
-              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.mail),
+                border: OutlineInputBorder(),
+                label: Text('Email'),
               ),
             ),
-
           ),
-          SizedBox(height: 30,),
-          RoundButton(title: 'Reset Password', onPress: (){
+          SizedBox(height: 40,),
+          RoundButton(title:'Reset Password',
+              loading: loading,
+              onPress: (){
+                setState(() {
+                  loading=true;
+                });
 
-          })
-
-
+                auth.sendPasswordResetEmail(email: emailController.text.toString()
+                ).then((value){
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginView()));
+                  setState(() {
+                    loading=false;
+                  });
+                  Utils.toastMessage('We have sent you email to recover password, please check email');
+                }).onError((error,StackTrace){
+                  setState(() {
+                    loading=false;
+                  });
+                  Utils.toastMessage(error.toString());
+                });
+              })
         ],
       ),
     );

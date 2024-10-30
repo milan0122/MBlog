@@ -3,6 +3,7 @@ import 'package:mblog/Utils/Route/RouteName.dart';
 import 'package:mblog/view/Home_View.dart';
 import 'package:mblog/view/Signup_View.dart';
 import 'package:mblog/view/Splash_View.dart';
+import 'package:mblog/view/add_blog.dart';
 import 'package:mblog/view/forgot_password.dart';
 import 'package:mblog/view/login_View.dart';
 
@@ -19,6 +20,8 @@ class Routes{
         return MaterialPageRoute(builder: (_)=>HomeView());
       case RouteName.forgot:
         return MaterialPageRoute(builder: (_)=>ForgotPassword());
+      case RouteName.addBlog:
+        return MaterialPageRoute(builder: (_)=>AddBlog());
       default:
         return MaterialPageRoute(builder: (_){
           return Scaffold(
