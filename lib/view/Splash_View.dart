@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mblog/Utils/Route/RouteName.dart';
+import 'package:mblog/View_Model/auth/splash_services.dart';
 import 'package:mblog/view/Signup_View.dart';
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -11,9 +13,7 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState(){
     super.initState();
-    Future.delayed(const Duration(seconds: 3),(){
-      Navigator.push(context, MaterialPageRoute(builder: (_)=>SignupView()));
-    });
+    SplashServices.isLogin(context);
   }
   @override
   Widget build(BuildContext context) {

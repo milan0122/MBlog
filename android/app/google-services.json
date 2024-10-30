@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1077159823061",
+    "project_id": "mblog-b31a3",
+    "storage_bucket": "mblog-b31a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077159823061:android:ca4740593ad5c82e50845c",
+        "android_client_info": {
+          "package_name": "com.example.mblog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6Csw3vPRAZHOcF72SksgHTdeJJkMcsyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
