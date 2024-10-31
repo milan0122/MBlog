@@ -11,14 +11,11 @@ MBlog is a blog application developed using Dart and Flutter. The app features s
 
 ## Screenshots
 
-### Splash Screen
-![Splash Screen](https://github.com/milan0122/MBlog/blob/f722d45109626d498ba636be8c45114a7d5dc322/Screenshot%202024-10-31%20at%2022.46.34.png)
+## Screenshots
 
-### Post View
-![Post View](https://github.com/milan0122/MBlog/blob/f722d45109626d498ba636be8c45114a7d5dc322/Screenshot%202024-10-31%20at%2022.47.27.png)
-
-### Add Post Feature
-![Add Post Feature](https://github.com/milan0122/MBlog/blob/f722d45109626d498ba636be8c45114a7d5dc322/Screenshot%202024-10-31%20at%2022.53.09.png)
+| Post View | Image upload options | Add Post Feature |
+|---------------|-----------|------------------|
+| ![Splash Screen](https://github.com/milan0122/MBlog/blob/f722d45109626d498ba636be8c45114a7d5dc322/Screenshot%202024-10-31%20at%2022.46.34.png) | ![Post View](https://github.com/milan0122/MBlog/blob/f722d45109626d498ba636be8c45114a7d5dc322/Screenshot%202024-10-31%20at%2022.47.27.png) | ![Add Post Feature](https://github.com/milan0122/MBlog/blob/f722d45109626d498ba636be8c45114a7d5dc322/Screenshot%202024-10-31%20at%2022.53.09.png) |
 
 ## Getting Started
 
