@@ -13,7 +13,7 @@ class SplashServices{
    }
    else{
      Future.delayed(const Duration(seconds: 3),(){
-       Navigator.pushNamed(context, RouteName.login);
+       Navigator.pushNamed(context, RouteName.medScreen);
      });
    }
 

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mblog/Utils/Route/RouteName.dart';
@@ -163,21 +162,7 @@ class _HomeViewState extends State<HomeView> {
 
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: (){
-          Navigator.pushNamed(context,RouteName.addBlog);
-        },
-        child: const Icon(Icons.add),),
 
-       bottomNavigationBar: BottomNavigationBar(
-         selectedItemColor:  Color(0xff2086D5),
-           unselectedItemColor: Colors.black,
-           items:const [
-         BottomNavigationBarItem(icon: Icon(Icons.home,),label: 'Home'),
-         BottomNavigationBarItem(icon: Icon(Icons.explore_outlined,),label: 'explore'),
-         BottomNavigationBarItem(icon: Icon(Icons.favorite,),label: 'Favourite'),
-         BottomNavigationBarItem(icon: Icon(Icons.person,),label: 'User')
-       ]),
 
 
 
