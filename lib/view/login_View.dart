@@ -40,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
           loading = false;
         });
         Utils.toastMessage('Welcome to blog');
-        Navigator.pushNamed(context, RouteName.home);
+        Navigator.pushNamed(context, RouteName.navbar);
       }).onError((error,StackTrace){
         setState(() {
           loading = false;

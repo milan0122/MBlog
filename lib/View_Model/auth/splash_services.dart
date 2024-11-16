@@ -8,7 +8,7 @@ class SplashServices{
 
    if(user !=null){
      Future.delayed(const Duration(seconds: 3),(){
-       Navigator.pushNamed(context, RouteName.home);
+       Navigator.pushNamed(context, RouteName.navbar);
      });
    }
    else{

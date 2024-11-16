@@ -11,6 +11,7 @@ import 'package:mblog/view/navigator_screen/bottom_bar.dart';
 import 'package:mblog/view/navigator_screen/explore.dart';
 import 'package:mblog/view/navigator_screen/favourite.dart';
 import 'package:mblog/view/navigator_screen/users_details.dart';
+import 'package:mblog/view/postDetailsScreen.dart';
 
 class Routes{
   static Route<dynamic> onGenerateRoute(RouteSettings set){
@@ -37,6 +38,9 @@ class Routes{
         return MaterialPageRoute(builder: (_)=>ForgotPassword());
       case RouteName.addBlog:
         return MaterialPageRoute(builder: (_)=>AddBlog());
+      case RouteName.postDetailsScreen:
+      return MaterialPageRoute(builder: (_)=>PostDetailsScreen());
+
       default:
         return MaterialPageRoute(builder: (_){
           return Scaffold(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mblog/Utils/Route/RouteName.dart';
 import 'package:mblog/Utils/utils.dart';
+import 'package:intl/intl.dart';
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -27,8 +28,8 @@ class _HomeViewState extends State<HomeView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          title: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
             child: Text('MBLOG',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
           ),
           centerTitle: false,
@@ -80,34 +81,61 @@ class _HomeViewState extends State<HomeView> {
                           query: dbRef.child('Post List'),
                           itemBuilder: (BuildContext context,DataSnapshot snapshot, Animation<double>animation,int index){
                             String tempTitle = snapshot.child('PTitle').value.toString();
+                            String timeString = snapshot.child('PTime').value.toString();
+                             // Convert the string from the format 'dd-MM-yyyy' (e.g., '16-06-2024') to a DateTime object
+                            DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(timeString);
+                             // Format the DateTime object to 'dd MMM yyyy' (e.g., '16 Jun 2024')
+                            String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
+
                             if(searchController.text.isEmpty){
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 20),
-                                    child: ClipRRect(
-                                      borderRadius:BorderRadius.circular(12),
-                                      child: FadeInImage.assetNetwork(
-                                          placeholder: 'assets/blog_logo.jpeg',
-                                          image: snapshot.child('PImage').value.toString(),
-                                          height: 200,
-                                          width:200,
-                                          fit: BoxFit.cover
+                                  GestureDetector(
+                                    onTap:(){
+                                      Navigator.pushNamed(context, RouteName.postDetailsScreen);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 20),
+                                      child: ClipRRect(
+                                        borderRadius:BorderRadius.circular(12),
+                                        child: FadeInImage.assetNetwork(
+                                            placeholder: 'assets/blog_logo.jpeg',
+                                            image: snapshot.child('PImage').value.toString(),
+                                            height: 180,
+                                            width:150,
+                                            fit: BoxFit.cover
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 20,),
+                                  const SizedBox(width: 20,),
                                   Expanded(child: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 28.0),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(snapshot.child('PTitle').value.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                                        Text(snapshot.child('PTitle').value.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                                        Text(snapshot.child('pDescription').value.toString(),style: TextStyle(fontWeight: FontWeight.normal,fontSize: 24),),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                         children: [
+                                           Expanded(child: Text(snapshot.child('uEmail').value.toString(),style: const TextStyle(color:Colors.black87,fontWeight: FontWeight.normal,fontSize: 18),)),
+                                           const Icon(Icons.more_horiz)
+                                         ],
+
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(child: Text(snapshot.child('PTitle').value.toString(),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 26),)),
+                                            const Icon(Icons.favorite_outlined)
+                                          ],
+                                        ),
+                                        Text(formattedDate)
+
+
+
+
                                       ],
                                     ),
                                   ))
@@ -140,8 +168,8 @@ class _HomeViewState extends State<HomeView> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(snapshot.child('PTitle').value.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                                        Text(snapshot.child('pDescription').value.toString(),style: TextStyle(fontWeight: FontWeight.normal,fontSize: 24),),
+                                        Text(snapshot.child('PTitle').value.toString(),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                                        Text(snapshot.child('pDescription').value.toString(),style: const TextStyle(fontWeight: FontWeight.normal,fontSize: 24),),
                                       ],
                                     ),
                                   ))

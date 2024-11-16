@@ -8,6 +8,7 @@ import 'package:mblog/Utils/Components/RoundButton.dart';
 import 'package:mblog/Utils/Route/RouteName.dart';
 import 'package:mblog/Utils/utils.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 class AddBlog extends StatefulWidget {
   const AddBlog({super.key});
 
@@ -22,7 +23,7 @@ class _AddBlogState extends State<AddBlog> {
   final storage= FirebaseStorage.instance;
   bool loading = false;
   File? _image;
-  final _formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   FocusNode titleFocusNode = FocusNode();
@@ -110,7 +111,7 @@ class _AddBlogState extends State<AddBlog> {
               ),
               SizedBox(height: 30,),
               Form(
-                key: _formkey,
+                key: _formKey,
                 child: Column(
                   children: [
                     Padding(
@@ -163,17 +164,22 @@ class _AddBlogState extends State<AddBlog> {
                         loading  = true;
                       });
                       try{
-                        int date = DateTime.now().millisecondsSinceEpoch;
-                       Reference ref = FirebaseStorage.instance.ref('/blogApp$date');
+                        DateTime now = DateTime.now();
+                        String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+                        //generate a unique id using user's  ud
+                        final User? user = auth.currentUser;
+                        if(user== null){
+                          Utils.toastMessage("NO user is logged in");
+                        }
+                        String postId = '${user?.uid}-${now.millisecondsSinceEpoch}';
+                       Reference ref = FirebaseStorage.instance.ref('/blogApp$postId');
                        UploadTask upload = ref.putFile(_image!.absolute);
                        await Future.value(upload);
                        var newUrl = await ref.getDownloadURL();
-                       final User? user = auth.currentUser;
-
-                       postRef.child('Post List').child(date.toString()).set({
-                         'pid':date.toString(),
+                       postRef.child('Post List').child(postId.toString()).set({
+                         'pid':postId.toString(),
                          'PImage':newUrl.toString(),
-                         'PTime': date.toString(),
+                         'PTime': formattedDate,
                          'PTitle':titleController.text.toString(),
                          'pDescription':descriptionController.text.toString(),
                          'uEmail':user!.email.toString(),

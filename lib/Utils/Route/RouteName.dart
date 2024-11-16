@@ -11,5 +11,6 @@ class RouteName{
   static const String forgot = 'forgot_password';
   static const String addBlog = 'add_blog';
   static const String medScreen = 'choice_screen';
+  static const String postDetailsScreen = 'postDetailsScreen';
 
 }
