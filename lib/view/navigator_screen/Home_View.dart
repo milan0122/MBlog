@@ -38,7 +38,7 @@ class _HomeViewState extends State<HomeView> {
             IconButton(
                 onPressed: () {
                   _auth.signOut().then((value) {
-                    Navigator.pushNamed(context, RouteName.login);
+                    Navigator.pushNamed(context, RouteName.medScreen);
                   }).onError((error, StackTrace) {
                     Utils.toastMessage(error.toString());
                   });
@@ -107,6 +107,7 @@ class _HomeViewState extends State<HomeView> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(snapshot.child('PTitle').value.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                                        Text(snapshot.child('PTitle').value.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
                                         Text(snapshot.child('pDescription').value.toString(),style: TextStyle(fontWeight: FontWeight.normal,fontSize: 24),),
                                       ],
                                     ),
@@ -159,17 +160,24 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            Positioned(
-                bottom: 16,
-                left: MediaQuery.of(context).size.width / 2 - 28,
-                child:FloatingActionButton(onPressed: (){
-              Navigator.pushNamed(context, RouteName.addBlog);
-            },
-                  backgroundColor: Colors.white,
-                  shape: CircleBorder(),
-            child: Icon(Icons.add),) )
+
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: (){
+          Navigator.pushNamed(context,RouteName.addBlog);
+        },
+        child: const Icon(Icons.add),),
+
+       bottomNavigationBar: BottomNavigationBar(
+         selectedItemColor:  Color(0xff2086D5),
+           unselectedItemColor: Colors.black,
+           items:const [
+         BottomNavigationBarItem(icon: Icon(Icons.home,),label: 'Home'),
+         BottomNavigationBarItem(icon: Icon(Icons.explore_outlined,),label: 'explore'),
+         BottomNavigationBarItem(icon: Icon(Icons.favorite,),label: 'Favourite'),
+         BottomNavigationBarItem(icon: Icon(Icons.person,),label: 'User')
+       ]),
 
 
 
