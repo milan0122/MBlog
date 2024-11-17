@@ -38,8 +38,8 @@ class Routes{
         return MaterialPageRoute(builder: (_)=>ForgotPassword());
       case RouteName.addBlog:
         return MaterialPageRoute(builder: (_)=>AddBlog());
-      case RouteName.postDetailsScreen:
-      return MaterialPageRoute(builder: (_)=>PostDetailsScreen());
+      // case RouteName.postDetailsScreen:
+      // return MaterialPageRoute(builder: (_)=>PostDetailsScreen());
 
       default:
         return MaterialPageRoute(builder: (_){

@@ -1,43 +1,72 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-class PostDetailsScreen extends StatefulWidget {
-  const PostDetailsScreen({super.key});
+import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart'; // To format the date
 
-  @override
-  State<PostDetailsScreen> createState() => _PostDetailsScreenState();
-}
+class PostDetailsScreen extends StatelessWidget {
+  final String postId;
 
-class _PostDetailsScreenState extends State<PostDetailsScreen> {
-  final _auth = FirebaseAuth.instance;
-  final dbRef = FirebaseDatabase.instance.ref().child('Post');
+  PostDetailsScreen({required this.postId});
+
   @override
   Widget build(BuildContext context) {
+    // Reference to the 'Post List' node in Firebase
+    final dbRef = FirebaseDatabase.instance.ref("Post/Post List/$postId");
+
     return Scaffold(
       appBar: AppBar(
-
+        title: Text('PostDetails'),
       ),
-      body:Column(
-        children: [
-          FirebaseAnimatedList(
-              query:dbRef.child('Post List') ,
-              itemBuilder: (BuildContext context,DataSnapshot snapshots,Animation<double>animation,int index){
-                String dateString = snapshots.child('PTime').value.toString();
-                DateTime parseDate = DateFormat('dd-MM-yyyy').parse(dateString);
-                String formattedDate = DateFormat('dd MMM yyyy').format(parseDate);
-                return Column(
-                  children: [
-                    Text(formattedDate),
-                    Text(snapshots.child('Ptitle').value.toString(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.normal))
-                    
-                  ],
-                );
-              })
-        ],
-      )
+      body:FutureBuilder<DataSnapshot>(future: dbRef.get(), builder:(context,snapshots){
+        var postData = snapshots.data!.value as Map<dynamic,dynamic>?;
+        if (postData == null) {
+          return Center(child: Text('Invalid post data'));
+        }
+        String title = postData['PTitle'] ?? 'No Title';
+        String timeString = postData['PTime']??" ";
+        DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(timeString);
+        String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
+        String description = postData['pDescription'] ?? 'No Description';
+        String userName = postData['uEmail'] ?? "No email";
+        String imageUrl = postData['PImage'] ?? '';
 
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(formattedDate),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(userName),
+                   Container(
+                     width: 70,
+                     height: 40,
+                     decoration: BoxDecoration(
+                       color: Colors.blue,
+                       borderRadius: BorderRadius.circular(20)
+                     ),
+                     child:Center(child: Text('Follow',style: TextStyle(color: Colors.white38),)),
+                   )
+                  ],
+                ),
+                Text(title,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                imageUrl.isNotEmpty
+                    ? Image.network(imageUrl)
+                    : Placeholder(fallbackHeight: 200),
+                const SizedBox(height: 20),
+                Text(description,style: TextStyle(fontWeight: FontWeight.normalgi,fontSize: 30),),
+
+
+              ],
+            ),
+          ),
+        );
+      })
     );
   }
 }

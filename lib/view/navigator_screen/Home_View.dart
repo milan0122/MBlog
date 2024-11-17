@@ -3,9 +3,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mblog/Model/post_details.dart';
 import 'package:mblog/Utils/Route/RouteName.dart';
 import 'package:mblog/Utils/utils.dart';
 import 'package:intl/intl.dart';
+import 'package:mblog/view/postDetailsScreen.dart';
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -14,6 +16,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  ValueNotifier<bool> toggle = ValueNotifier<bool>(true);
   final searchController= TextEditingController();
   final _auth = FirebaseAuth.instance;
   final dbRef = FirebaseDatabase.instance.ref().child('Post');
@@ -94,7 +97,7 @@ class _HomeViewState extends State<HomeView> {
                                 children: [
                                   GestureDetector(
                                     onTap:(){
-                                      Navigator.pushNamed(context, RouteName.postDetailsScreen);
+                                      Navigator.push(context,MaterialPageRoute(builder: (_)=>PostDetailsScreen(postId:snapshot.key!)));
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 20),
@@ -125,12 +128,22 @@ class _HomeViewState extends State<HomeView> {
                                          ],
 
                                         ),
+                                        SizedBox(height: 20,),
                                         Row(
                                           children: [
                                             Expanded(child: Text(snapshot.child('PTitle').value.toString(),style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 26),)),
-                                            const Icon(Icons.favorite_outlined)
+                                             ValueListenableBuilder(valueListenable: toggle, builder: (context,value,child){
+                                               return InkWell(
+                                                 onTap: (){
+                                                   toggle.value =! toggle.value;
+                                                 },
+                                                 child: Icon(toggle.value? Icons.favorite_border_outlined :Icons.favorite_outlined,color: Colors.blue,),
+                                               );
+                                             })
+
                                           ],
                                         ),
+                                        SizedBox(height: 20,),
                                         Text(formattedDate)
 
 
